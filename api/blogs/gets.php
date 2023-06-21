@@ -1,5 +1,5 @@
 <?php 
-    if ($acao == '') { echo json_encode(['error' => 'Caminho nao encontrado']);}
+    if ($acao == '') { echo json_encode(["error" => true, "msg" => "Caminho nao encontrado!"]);}
             
     if($acao == 'list' && $param == ''){
 
@@ -26,15 +26,16 @@
         }
         else
         {
-            echo json_encode(["dados" => "Não existe dados!"]);
+            echo json_encode(["error" => true, "msg" => "Dados não existe!"]);
         }
-        // $connection->close();
+        $connection = null;
+
     }
 
     if($acao == 'list' && $param != ''){
 
         if(!$filter = filter_var($param, FILTER_VALIDATE_INT)){
-            echo json_encode(["error:" => "entrada inválida!"]);
+            echo json_encode(["error" => true, "msg" => "Entrada Inválida!"]);
         }else {
 
             $db = new DB();
