@@ -1,6 +1,6 @@
 <?php 
 
-    if ($acao == '') { echo json_encode(['error' => 'Caminho nao encontrado']);}
+    if ($acao == '') { echo json_encode(["error" => true, "msg" => "Caminho nao encontrado!"]);}
 
     if ($acao == "adcionar" && $param == "") {
         $db = new DB();

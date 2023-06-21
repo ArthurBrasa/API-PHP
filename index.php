@@ -18,7 +18,7 @@
     if(isset($path[2])) { $param = $path[2]; } else { $param = ""; }
 
     $method = $_SERVER['REQUEST_METHOD'];
-
+    
     require_once "classes/db.class.php";
     include_once "api/blogs/articles.php"
 
