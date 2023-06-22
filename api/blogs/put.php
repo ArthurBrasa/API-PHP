@@ -26,9 +26,7 @@
             
             
             $content = explode("=", $_PUT[2]);
-            echo $content;
             $content = urldecode($content[1]);
-            echo $content;
 
             $db = new DB();
             $connection = $db->connect();
