@@ -5,30 +5,40 @@
 
         $db = new DB();
 
-        $connection = $db->connect();
+        try {
+            
+            $connection = $db->connect();
+            $rs = $connection->query(
+                "
+                SELECT 
+                    * 
+                FROM 
+                    blog.articles 
+                ORDER BY 
+                    created_at ASC
+                "
+            );
+    
+            $array_posts = $rs->fetchAll(PDO::FETCH_ASSOC);
 
-        $rs = $connection->query(
-            "
-            SELECT 
-                * 
-            FROM 
-                blog.articles 
-            ORDER BY 
-                created_at ASC
-            "
-        );
+            
 
-        $array_posts = $rs->fetchAll(PDO::FETCH_ASSOC);
+            if ($array_posts)
+            {
+                echo json_encode($array_posts);
+            }
+            else
+            {
+                echo json_encode(["error" => true, "msg" => "Dados não existe!"]);
+            }
+            $connection = null;
 
-        if ($array_posts)
-        {
-            echo json_encode($array_posts);
+        } catch (PDOException $e) {
+
+            echo json_encode(["error" => true, "msg" => "Banco de dados nao encontrado!"]);
         }
-        else
-        {
-            echo json_encode(["error" => true, "msg" => "Dados não existe!"]);
-        }
-        $connection = null;
+
+        
 
     }
 

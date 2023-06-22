@@ -3,7 +3,7 @@
     # Tipo de acesso
     header('Access-Control-Allow-Origin: *');
     # Tipo de Retorno da API
-    header("Content-type: application/json");
+    header('Content-Type: application/json; charset=utf-8');
 
     date_default_timezone_set("America/Sao_Paulo");
 
