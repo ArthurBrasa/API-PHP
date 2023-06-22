@@ -19,15 +19,16 @@
             $_PUT = explode("&", file_get_contents('php://input'));
             
             $title = explode("=", $_PUT[0]);
-            $title = str_replace("%20", " ", $title[1]);
+            $title = urldecode($title[1]);
 
             $subTitle = explode("=", $_PUT[1]);
-            $subTitle = str_replace("%20", " ", $subTitle[1]);
+            $subTitle = urldecode($subTitle[1]);
             
             
             $content = explode("=", $_PUT[2]);
-            $content = str_replace("%20", " ", $content[1]);
-
+            echo $content;
+            $content = urldecode($content[1]);
+            echo $content;
 
             $db = new DB();
             $connection = $db->connect();
@@ -51,7 +52,13 @@
 
             try {
                 $stmt->execute();
-                echo json_encode(["error" => false, "msg" => "Dados atualizado com sucesso!"]);
+                if($stmt->rowCount() == 1){
+                    echo json_encode(["error" => false, "msg" => "Dados atualizado com sucesso!"]);
+                }
+                else
+                {
+                    echo json_encode(["error" => true, "msg" => "Dados não foi atualizado!"]);
+                }
 
             } catch (PDOException $e) {
                 echo json_encode(["error" => true, "msg" => "Dados nao foram atualizados!"]);
