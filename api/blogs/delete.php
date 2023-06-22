@@ -8,26 +8,24 @@
     }
     elseif ($acao == 'remover' && $param != '')
     {
-        if(!$filter = filter_var($param, FILTER_VALIDATE_INT))
-        {
-            echo json_encode(["error" => true, "msg" => "Entrada Inválida!"]);
-        }
-        else
-        {
-            $db = new DB();
-            $connection = $db->connect();
-
-            $query = "
-                DELETE FROM
-                    blog.articles 
-                WHERE 
-                    id = :id;";
-
-            $stmt = $connection->prepare($query);
-            $stmt->bindValue(":id", $param, PDO::PARAM_INT);
-
-
-            try {
+        try {
+            if(!$filter = filter_var($param, FILTER_VALIDATE_INT))
+            {
+                echo json_encode(["error" => true, "msg" => "Entrada Inválida!"]);
+            }
+            else
+            {
+                $db = new DB();
+                $connection = $db->connect();
+    
+                $query = "
+                    DELETE FROM
+                        blog.articles 
+                    WHERE 
+                        id = :id;";
+    
+                $stmt = $connection->prepare($query);
+                $stmt->bindValue(":id", $param, PDO::PARAM_INT);
                 $stmt->execute();
                 if($stmt->rowCount() == 1)
                 {
@@ -37,16 +35,17 @@
                 {
                     echo json_encode(["error" => true, "msg" => "Dado nao existe!"]);
                 }
+                $connection = null;
+            }
 
             } catch (PDOException $e) {
                 echo json_encode(["error" => true, "msg" => "Dado nao foi removido!"]);
-                print_r($e->errorInfo);
             }
 
-            $connection = null;
-        }
-        
+            
     }
+        
+    
 
 
 
