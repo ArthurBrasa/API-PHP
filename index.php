@@ -4,8 +4,39 @@
     header('Access-Control-Allow-Origin: *');
     # Tipo de Retorno da API
     header('Content-Type: application/json; charset=utf-8');
+    # Autenticação HTTP Basic
+    header('Authorization: Basic YWRtaW46YWRtaW4=');
+    # Métodos de acesso
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    # Tempo de acesso
+    header('Access-Control-Max-Age: 1');
+
 
     date_default_timezone_set("America/Sao_Paulo");
+
+    // credencias esperadas
+     $expectedUsername = 'admin';
+     $expectedPassword = 'admin';
+
+     // verificar se as credencias estão corretas
+    if ( !isset($_SERVER['PHP_AUTH_PW']) || !isset($_SERVER['PHP_AUTH_USER'])) {
+        header('HTTP/1.1 401 Unauthorized');
+        header('WWW-Authenticate: Basic realm="Acesso Restrito"');
+        exit('Acesso Restrito');
+    }
+
+    // Verifique as credenciais
+    $username = $_SERVER['PHP_AUTH_USER'];
+    $password = $_SERVER['PHP_AUTH_PW'];
+
+    if ($username !== $expectedUsername || $password !== $expectedPassword) {
+        header('HTTP/1.1 401 Unauthorized');
+        header('WWW-Authenticate: Basic realm="Authorization Required"');
+        echo 'Credenciais inválidas.';
+        exit;
+    }
+
+
 
 
     // Definição de Rotas
@@ -20,7 +51,5 @@
     $method = $_SERVER['REQUEST_METHOD'];
     
     require_once "classes/db.class.php";
-    include_once "api/blogs/articles.php"
+    include_once "api/blogs/articles.php";
 
-
-?>
