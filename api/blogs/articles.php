@@ -8,6 +8,7 @@
         if($method == "GET")
         {
             include_once "gets.php";
+
         }
 
         /*
@@ -33,7 +34,9 @@
             include_once "delete.php";
         }
 
+
     }
+
 
 
 ?>

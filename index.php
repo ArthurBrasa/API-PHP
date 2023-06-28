@@ -1,5 +1,7 @@
 <?php 
     // CONFIGS INICIAS
+    date_default_timezone_set("America/Sao_Paulo");
+
     # Tipo de acesso
     header('Access-Control-Allow-Origin: *');
     # Tipo de Retorno da API
@@ -9,14 +11,12 @@
     # Métodos de acesso
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
     # Tempo de acesso
-    header('Access-Control-Max-Age: 1');
+    header('Access-Control-Max-Age: 86400');
+    # Last-Modified
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
 
-    date_default_timezone_set("America/Sao_Paulo");
 
-    // credencias esperadas
-     $expectedUsername = 'admin';
-     $expectedPassword = 'admin';
 
      // verificar se as credencias estão corretas
     if ( !isset($_SERVER['PHP_AUTH_PW']) || !isset($_SERVER['PHP_AUTH_USER'])) {
@@ -28,8 +28,8 @@
     // Verifique as credenciais
     $username = $_SERVER['PHP_AUTH_USER'];
     $password = $_SERVER['PHP_AUTH_PW'];
-
-    if ($username !== $expectedUsername || $password !== $expectedPassword) {
+    $autenticado = base64_encode($username.":".$password);
+    if ('YWRtaW46YWRtaW4=' != $autenticado) {
         header('HTTP/1.1 401 Unauthorized');
         header('WWW-Authenticate: Basic realm="Authorization Required"');
         echo 'Credenciais inválidas.';
@@ -52,4 +52,3 @@
     
     require_once "classes/db.class.php";
     include_once "api/blogs/articles.php";
-
