@@ -17,7 +17,6 @@
 
 
 
-
      // verificar se as credencias estão corretas
     if ( !isset($_SERVER['PHP_AUTH_PW']) || !isset($_SERVER['PHP_AUTH_USER'])) {
         header('HTTP/1.1 401 Unauthorized');
@@ -40,7 +39,7 @@
 
 
     // Definição de Rotas
-    if (isset($_GET["path"])) { $path = explode("/", $_GET["path"]); } else { echo "Caminhao não existe"; exit;}
+    if (isset($_GET["path"])) { $path = explode("/", $_GET["path"]); } else { echo "Caminho não existe"; exit;}
 
     if(isset($path[0])) { $api = $path[0]; } else { echo "Caminhao não existe"; exit; }
 
